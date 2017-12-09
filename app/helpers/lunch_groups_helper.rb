@@ -1,0 +1,2 @@
+module LunchGroupsHelper
+end

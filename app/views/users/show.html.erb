@@ -1,0 +1,19 @@
+<h1><%= @user.name %></h1>
+<img src='<%= @user.avatar_url %>' class='media-object img-rounded avatar' style='padding-bottom: 2%; margin: 0 auto;'>
+<h1>My Current Lunch Date</h1>
+  <ul class="list-group">
+    <% @lunch_groups_user_current.each do |lunch_group| %>
+		  <div class="list_item_for_group_<%= lunch_group.id %>">
+	      <%= render :partial => 'lunch_groups/lunch_group_list_item', :locals => {:lunch_group => lunch_group} %>
+		  </div>
+    <% end %>
+  </ul>
+  <hr>
+<h2>My Past lunch dates</h2>
+	<ul class="list-group">
+	  <% @lunch_groups_user_past.each do |lunch_group| %>
+		  <div class="list_item_for_group_<%= lunch_group.id %>">
+		    <%= render :partial => 'lunch_groups/lunch_group_list_item', :locals => {:lunch_group => lunch_group} %>
+		  </div>
+	  <% end %>
+	</ul>

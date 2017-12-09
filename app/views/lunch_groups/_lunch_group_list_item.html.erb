@@ -1,0 +1,37 @@
+    <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: <%= lunch_group.all_confirmed? ? 'yellow' : 'transparent' %>;">
+	    <% if lunch_group.lunch_group_users_list.include?(current_user) %>
+			  <% if !lunch_group.is_past? %>
+		    	<h4>Choose for group</h4>
+	      	<% if lunch_group.location.nil? %>
+						<form id='choose-rest' group-id='<%= lunch_group.id %>'>
+							<input type="hidden" name="this_action" value='update_location'>
+							<div class="form-group">
+								<select class="form-control" name="lunch_group[type_of_food]">
+									<!-- TODO:  get this from yelp -->
+									<option value="Thai Food">Thai Food</option>
+									<option value="Pizza">Pizza</option>
+									<option value="Greek">Greek</option>
+									<option value="Food Trucks">Food Trucks</option>
+								</select>
+							</div>
+							<button type="submit" name="confirm" class="btn btn-primary">CONFIRM</button>
+						</form>
+			    <% else %>
+				    <h4><%= lunch_group.location ? lunch_group.location : 'No restaurant choosen' %></h4>
+			    <% end %>
+		    	<% if LunchGroupUser.find_invite(current_user,lunch_group).try(:confirmed) %>
+			    	<a href="#" class="btn btn-danger btn-md confirm-this" this_action='cancel' group-id='<%= lunch_group.id %>'>Cancel</a>
+			    <% else %>
+			    	<a href="#" class="btn btn-primary btn-md confirm-this" this_action='confirm' group-id='<%= lunch_group.id %>'>Confirm</a>
+			    <% end %>
+		    <% end %>
+	    <% end %>
+    	<ul>
+        <% lunch_group.lunch_group_users_list.each do |user| %>
+	        <li>
+		        <a href='<%= user_path(:id => user.id) %>'><%= user.name %></a>
+	        </li>
+        <% end %>
+    	</ul>
+        <span class="badge badge-primary badge-pill"><%= lunch_group.is_past? ? 'past' : lunch_group.number_people %></span>
+    </li>
