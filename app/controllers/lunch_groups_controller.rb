@@ -29,8 +29,12 @@ class LunchGroupsController < ApplicationController
     flash[:error] = ''
     User.all.each_slice(4) do |group|
       # IF anyone is eating alone, join them to another group
-      if group.size < 2
+      if group.size <= 2
         lunch_group = LunchGroup.current_groups.shuffle.first
+        #  TODO: fix this to even distribute more than 4 users in group
+        while lunch_group.lunch_group_users.count < 5
+          lunch_group = LunchGroup.current_groups.shuffle.first
+        end
         group.each do |user|
           lunch_group.add_another(user)
         end

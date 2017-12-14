@@ -49,6 +49,7 @@ class UsersController < ApplicationController
       # make a validation code
       # make an entry in the user_holder_table with validation code and 
       # send validation e-mail
+      sign_in(:user, user)
       redirect_to user_path(:id => user.id)
     else
       flash[:error] = user.errors.full_messages.join(', ')
